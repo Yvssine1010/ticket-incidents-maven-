@@ -57,14 +57,49 @@
             <artifactId>commons-text</artifactId>
         </dependency>
     </dependencies>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>target-dev</id>
+            <!-- -->
+        </profile><profile>
+            <id>target-test</id>
+            <!-- -->
+        </profile><profile>
+            <id>target-prod</id>
+            <!-- -->
+        </profile>
+    </profiles>
     <!--=====================================================================================-->
     <!--Build-->
     <!--=====================================================================================-->
     <build>
         <finalName>ticket-webapp</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-profile-target</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireActiveProfile>
+                                    <profiles>target-dev,target-test,target-prod</profiles>
+                                    <all>false</all>
+                                </requireActiveProfile>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
     </build>
 </project>
